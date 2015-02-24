@@ -87,7 +87,7 @@ bool SceneGame::init(bool red)
     this->addChild(plate);
 
     //设置描点为(0,0)
-    plate->setAnchorPoint(CCPointZero);
+    plate->setAnchorPoint(Point(0,0));
 
     //设置棋盘的位置
     plate->setPosition(_plateOffset);
