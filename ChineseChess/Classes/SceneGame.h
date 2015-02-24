@@ -178,7 +178,7 @@ public:
     bool canMoveBing(int moveid, int x, int y);
           
     //通过点击选择棋子，走棋子
-    bool ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent);
+    bool onTouchBegan(CCTouch* pTouch, CCEvent* pEvent);
 };
 
 #endif // SCENEGAME_H

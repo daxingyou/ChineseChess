@@ -261,7 +261,7 @@ void SceneGame::initStone()
 
 
 //通过点击选择棋子，走棋子
-bool SceneGame::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent)
+bool SceneGame::onTouchBegan(CCTouch* pTouch, CCEvent* pEvent)
 {
     CCObject* obj = (CCObject*)pTouch;
 
@@ -585,17 +585,17 @@ void SceneGame::Voice(CCObject*)
 
 
 //返回到开始场景
-void SceneGame::Return(CCObject*)
+void SceneGame::Return(Object*)
 {
     //返回到开始场景
-    CCDirector::sharedDirector()->replaceScene(SceneStart::scene());
+    Director::getInstance()->replaceScene(SceneStart::createScene());
 }
 
 //红棋和黑棋之间的对杀
-void SceneGame::moveComplete(CCNode* movestone, void* _killid)
+void SceneGame::moveComplete(Node* movestone, void* _killid)
 {
     //得到窗口的大小
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    Size winSize = Director::getInstance()->getWinSize();
 
     //设置优先级
     movestone->setZOrder(movestone->getZOrder() - 1);
@@ -641,23 +641,23 @@ void SceneGame::moveComplete(CCNode* movestone, void* _killid)
 
 
 //显示游戏结果
-void SceneGame::ShowResult(CCSprite* Sprite, CCSize winSize)
+void SceneGame::ShowResult(Sprite* Sprite, Size winSize)
 {
      //显示游戏结果提示框
     Sprite->setVisible(true);
     Sprite->setZOrder(1000);
     visible = true;
 
-    CCMoveTo*  move = CCMoveTo::create(1, ccp(Sprite->getPositionX(), winSize.height / 2));
+    MoveTo*  move = MoveTo::create(1, ccp(Sprite->getPositionX(), winSize.height / 2));
     Sprite->runAction(move);    
 }
  
 
 //隐藏游戏结果
-void SceneGame::HideResult(CCSprite* s, CCObject* obj)
+void SceneGame::HideResult(Sprite* s, Object* obj)
 { 
     //获得窗口的尺寸
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	CCSize winSize = Director::getInstance()->getWinSize();
 
     //隐藏游戏结果
     s->setVisible(false);

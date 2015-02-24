@@ -2,9 +2,9 @@
 #include "SceneGame.h"
 
 
-CCScene* SceneStart::scene()
+Scene* SceneStart::createScene()
 {
-    CCScene* scene = CCScene::create();
+    Scene* scene = Scene::create();
 
     SceneStart* layer = SceneStart::create();
 
@@ -16,14 +16,14 @@ CCScene* SceneStart::scene()
 
 bool SceneStart::init()
 {
-    CCLayer::init();
+    Layer::init();
 
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    Size winSize = Director::sharedDirector()->getWinSize();
 
-    CCSprite* bkr = CCSprite::create("bkg2.png");
+    Sprite* bkr = Sprite::create("bkg2.png");
     addChild(bkr);
 
-    CCSprite* bkb = CCSprite::create("bkg1.png");
+    Sprite* bkb = Sprite::create("bkg1.png");
     addChild(bkb);
 
     bkr->setPosition(ccp(winSize.width / 2 - 100, winSize.height / 2));
@@ -40,18 +40,18 @@ bool SceneStart::init()
 }
 
 
-bool SceneStart::ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent)
+bool SceneStart::onTouchBegan(Touch* pTouch, Event* pEvent)
 {
     return true;
 }
 
 
-void SceneStart::ccTouchEnded(CCTouch* pTouch, CCEvent* pEvent)
+void SceneStart::onTouchEnded(Touch* pTouch, Event* pEvent)
 {
-     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+     Size winSize = Director::sharedDirector()->getWinSize();
 
     //获得触摸点的位置(坐标)
-    CCPoint ptClick = pTouch->getLocation();
+    Point ptClick = pTouch->getLocation();
 
     //用于判断是否点中了棋子
     bool bClickStone = false;
@@ -79,16 +79,16 @@ void SceneStart::ccTouchEnded(CCTouch* pTouch, CCEvent* pEvent)
     if(bClickStone)
     {
         //移动棋子
-        CCMoveTo* moveTo1 = CCMoveTo::create(1, ccp(winSize.width / 2, winSize.height / 2));
-        CCMoveTo* moveTo2 = CCMoveTo::create(1, ccp(winSize.width / 2, winSize.height / 2));
+        MoveTo* moveTo1 = MoveTo::create(1, ccp(winSize.width / 2, winSize.height / 2));
+        MoveTo* moveTo2 = MoveTo::create(1, ccp(winSize.width / 2, winSize.height / 2));
     
         //旋转棋子
-        CCRotateBy* rotate1 =  CCRotateBy::create(1, 360);
-        CCRotateBy* rotate2 =  CCRotateBy::create(1, -360);
+        RotateBy* rotate1 =  RotateBy::create(1, 360);
+        RotateBy* rotate2 =  RotateBy::create(1, -360);
 
         //旋转和移动同时执行
-        CCSpawn* spawn1 = CCSpawn::create(moveTo1, rotate1, NULL);
-        CCSpawn* spawn2 = CCSpawn::create(moveTo2, rotate2, NULL);
+        Spawn* spawn1 = Spawn::create(moveTo1, rotate1, NULL);
+        Spawn* spawn2 = Spawn::create(moveTo2, rotate2, NULL);
 
         //执行行动作
         _red->runAction(spawn1);
@@ -113,6 +113,6 @@ void SceneStart::update(float)
     if(abs(x1 - x2) <= _red->getContentSize().width)
     {      
         //进入游戏
-        CCDirector::sharedDirector()->replaceScene(SceneGame::scene(this->_selected));
+        Director::sharedDirector()->replaceScene(SceneGame::scene(this->_selected));
     }
 }

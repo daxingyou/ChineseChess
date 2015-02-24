@@ -14,27 +14,38 @@ AppDelegate::~AppDelegate()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-    // initialize director
-    CCDirector* pDirector = CCDirector::sharedDirector();
-    CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
+   // initialize director
+	auto director = Director::getInstance();
+	auto eglView = director->getOpenGLView();
+	if(!eglView) {
+		eglView = GLViewImpl::create("Tower");
+		director->setOpenGLView(eglView);
+	}
 
-    pDirector->setOpenGLView(pEGLView);
+	// turn on display FPS
+	director->setDisplayStats(false);
 
-    pEGLView->setDesignResolutionSize(800, 480, kResolutionExactFit);
-	
-    // turn on display FPS
-    pDirector->setDisplayStats(false);
+	// set FPS. the default value is 1.0/60 if you don't call this
+	director->setAnimationInterval(1.0 / 60);
 
-    // set FPS. the default value is 1.0/60 if you don't call this
-    pDirector->setAnimationInterval(1.0 / 60);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+	eglView->setDesignResolutionSize(800, 480, kResolutionExactFit);
+#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	if(visibleSize.width/visibleSize.height > 800/480){
+		eglView->setDesignResolutionSize(800, 480, ResolutionPolicy::EXACT_FIT);
+	}
+	else{
+		eglView->setDesignResolutionSize(800, 480, ResolutionPolicy::NO_BORDER);
+	}
+#endif
+	// create a scene. it's an autorelease object
+	auto scene = SceneStart::createScene();
+	// run
+	director->runWithScene(scene);
 
-    // create a scene. it's an autorelease object
-    CCScene *pScene = SceneStart::scene();
-
-    // run
-    pDirector->runWithScene(pScene);
-
-    return true;
+	return true;
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too

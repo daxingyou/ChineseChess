@@ -4,20 +4,20 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
-class SceneStart : public CCLayer
+class SceneStart : public Layer
 {
 public:
-    static CCScene* scene();
+    static Scene* createScene();
 
     bool init();
 
     CREATE_FUNC(SceneStart);
 
-    bool ccTouchBegan(CCTouch* pTouch, CCEvent* pEvent);
-    void ccTouchEnded(CCTouch* pTouch, CCEvent* pEvent);
+    bool onTouchBegan(Touch* pTouch, Event* pEvent);
+    void onTouchEnded(Touch* pTouch, Event* pEvent);
 
-    CCSprite* _red;
-    CCSprite* _black;
+    Sprite* _red;
+    Sprite* _black;
 
     void update(float);
 
